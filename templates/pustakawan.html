@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w-full flex flex-col gap-8">
+
+    <!-- Header Dashboard -->
+    <div class="glass-card p-6 rounded-2xl flex justify-between items-center border-l-4 border-cyan-500">
+        <div>
+            <h1 class="text-2xl font-bold text-white">Pusat Komando Pustakawan</h1>
+            <p class="text-gray-400 text-sm">Kelola armada buku dan pantau eksplorasi peminjam.</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Form Tambah Buku -->
+        <div class="glass-card p-6 rounded-2xl md:col-span-1 h-fit">
+            <h2 class="text-xl font-bold text-cyan-300 mb-4 flex items-center gap-2">
+                <span>➕</span> Tambah Buku Baru
+            </h2>
+            <form action="{{ url_for('pustakawan') }}" method="POST" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">Judul Buku</label>
+                    <input type="text" name="title" required class="w-full bg-black/30 border border-gray-600 rounded-lg p-2 text-white focus:border-cyan-400 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">Penulis (Author)</label>
+                    <input type="text" name="author" required class="w-full bg-black/30 border border-gray-600 rounded-lg p-2 text-white focus:border-cyan-400 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">Jumlah Stok</label>
+                    <input type="number" name="stock" required min="1" class="w-full bg-black/30 border border-gray-600 rounded-lg p-2 text-white focus:border-cyan-400 focus:outline-none">
+                </div>
+                <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 rounded-lg transition-colors shadow-[0_0_10px_rgba(6,182,212,0.5)]">
+                    Kirim ke Stasiun
+                </button>
+            </form>
+        </div>
+
+        <!-- Daftar Buku & Transaksi -->
+        <div class="md:col-span-2 space-y-8">
+
+            <!-- Tabel Daftar Buku -->
+            <div class="glass-card p-6 rounded-2xl overflow-x-auto">
+                <h2 class="text-xl font-bold text-purple-300 mb-4 flex items-center gap-2">
+                    <span>📚</span> Armada Buku Tersedia
+                </h2>
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-gray-600 text-gray-300 text-sm">
+                            <th class="p-2">ID</th>
+                            <th class="p-2">Judul</th>
+                            <th class="p-2">Penulis</th>
+                            <th class="p-2">Stok</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        {% for book in books %}
+                        <tr class="border-b border-gray-700 hover:bg-white/5">
+                            <td class="p-2 text-gray-400">{{ book.id }}</td>
+                            <td class="p-2 text-white">{{ book.title }}</td>
+                            <td class="p-2 text-gray-300">{{ book.author }}</td>
+                            <td class="p-2 text-cyan-400">{{ book.stock }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
